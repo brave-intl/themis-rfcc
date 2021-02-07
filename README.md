@@ -37,6 +37,10 @@ However, if some solution which leverages a ZKP scheme instead of pairing-based 
 We assume that each user may request 10 BBA updates to Brave over one day. Those requests update maps to an ad interaction. On the other hand, we assume that a user may calculate the reward and request a reward from Brave once every month.
 
 
+- **How you will be able to decentralise other aspects of Brave, beside the reward calculation and the ad attribution metrics for advertisers? For example, how does THEMIS decentralize the payment of the rewards or the logic behind the ad mechanics?**
+
+THEMIS is part of progressively decentralizing Brave Rewards and Ads. Currently, the protocol focuses on decentralizing and bringing transparency to the rewards calculation and to the ad attribution metrics for advertisers, which is non-trivial. The efforts to decentralize other components of the Brave Rewards and Ads ecosystem are out of scope of this RFC&C, although they can be considered by the teams when submitting their RFC proposals.
+
 ### RFC&C Practicalities
 
 - **How to participate in the RFC&C event?**
