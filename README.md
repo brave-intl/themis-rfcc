@@ -18,6 +18,30 @@ This repo contains resources for teams to participate in the RFC&C event:
 
 ## FAQ
 
+### THEMIS protocol
+
+- **Is the reward calculation proof of THEMIS constrained to a specific curve and ZKP scheme?**
+
+THEMIS is not constrained to any particular curve or ZKP scheme yet. However, the BBA scheme we designed requires bilinear friendly curves (refer to the BBA report). We are working on an implementation of the signature scheme necessary to implement the BBA which is curve-agnostic ([Structure Preserving Signatures over Equivalence Classes (github)](https://github.com/brave-experiments/sps-eq/)). One of the goals of the RFC&C is to figure out which schemes and params are best suited to implement the THEMIS protocol. When selecting the curve and ZKP scheme, we will focus on optimizing computation performance, with special emphasis on the computation required by the user to generate the proof of correct reward calculation. In addition, those choices should take into consideration the communication overhead and the scalability and costs of verifying the proofs off and on-chain.
+
+- **Would you consider a BBA that doesn't require a pairing friendly curve (but rather relies on ZKPs to do some extra work)?**
+
+We could consider a different BBA that does not require pairings, and instead uses zero knowledge proofs. The main concern of such solutions is the computation and communication complexity of the ’show protocol’ - when the user requests an update by proving it owns a valid token. Note that the update requests may happen up to 10 days a day per user (see question below).
+ 
+In the pairing based construction THEMIS uses, the user simply needs to randomise the token and signature (5 exponentiations and two inversions modulo de order of the group), and send it (5 EC points, 4 from G1 and 1 from G2). In a ZKP based construction, the user needs to generate the proof and send it (the computation and bandwidth required here is the concern). 
+ 
+However, if some solution which leverages a ZKP scheme instead of pairing-based would achieve better performance and bandwidth, the protocol may change to accommodate those improvements. 
+
+- **What’s the frequency of the ad update request? How about the frequency of the reward request, which requires the reward calculation and proof from the user?**
+
+We assume that each user may request 10 BBA updates to Brave over one day. Those requests update maps to an ad interaction. On the other hand, we assume that a user may calculate the reward and request a reward from Brave once every month.
+
+
+- **How you will be able to decentralise other aspects of Brave, beside the reward calculation and the ad attribution metrics for advertisers? For example, how does THEMIS decentralize the payment of the rewards or the logic behind the ad mechanics?**
+
+THEMIS is part of progressively decentralizing Brave Rewards and Ads. Currently, the protocol focuses on decentralizing and bringing transparency to the rewards calculation and to the ad attribution metrics for advertisers, which is non-trivial. The efforts to decentralize other components of the Brave Rewards and Ads ecosystem are out of scope of this RFC&C, although they can be considered by the teams when submitting their RFC proposals.
+
+### RFC&C Practicalities
 
 - **How to participate in the RFC&C event?**
 
