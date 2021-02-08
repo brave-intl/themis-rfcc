@@ -13,7 +13,7 @@ This repo contains resources for teams to participate in the RFC&C event:
 
 - [RFC&C and THEMIS technical report](./rfcc-themis-tech-report-v1.0.pdf) current
   revision: v1.0
-- [Constant size Black-Box Accumulators technical report](./rfcc-themis-tech-report-v1.0.pdf) current revision: v1.0
+- [Constant size Black-Box Accumulators technical report](./rfcc-themis-bbas-v1.0.pdf) current revision: v1.0
 - FAQ (below)
 
 ## FAQ
