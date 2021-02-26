@@ -63,4 +63,4 @@ and an example of a system the Brave Research Team sees as a good trade-off
 between privacy, security, scalability and production-readiness. Submissions
 may not use any of the components of THEMIS. However, the submissions should
 respect the goals and requirements outlined in the Section Goals and Requirements
-of the [RFC&C and THEMIS technical report](./rfcc-themis-tech-report-v0.1.pdf).
+of the [RFC&C and THEMIS technical report](./rfcc-themis-tech-report-v1.0.pdf).
