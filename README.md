@@ -46,7 +46,7 @@ THEMIS is part of progressively decentralizing Brave Rewards and Ads. Currently,
 - **How to participate in the RFC&C event?**
 
 Feel free to reach out anyone at the Brave Research team on our  [RFC&C and
-THEMIS technical report)](./rfcc-themis-tech-report-v0.1.pdf).
+THEMIS technical report](./rfcc-themis-tech-report-v1.0.pdf).
 
 - **Should the participant teams work on all phases of the protocol?**
 
