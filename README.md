@@ -14,6 +14,7 @@ This repo contains resources for teams to participate in the RFC&C event:
 - [RFC&C and THEMIS technical report](./rfcc-themis-tech-report-v1.0.pdf) current
   revision: v1.0
 - [Constant size Black-Box Accumulators technical report](./rfcc-themis-bbas-v1.0.pdf) current revision: v1.0
+- [Submission template](https://hackmd.io/QX4zgIeaQ6OSGJEwFYHtEw)
 - FAQ (below)
 
 ## FAQ
@@ -36,10 +37,13 @@ However, if some solution which leverages a ZKP scheme instead of pairing-based 
 
 We assume that each user may request 10 BBA updates to Brave over one day. Those requests update maps to an ad interaction. On the other hand, we assume that a user may calculate the reward and request a reward from Brave once every month.
 
-
 - **How you will be able to decentralise other aspects of Brave, beside the reward calculation and the ad attribution metrics for advertisers? For example, how does THEMIS decentralize the payment of the rewards or the logic behind the ad mechanics?**
 
 THEMIS is part of progressively decentralizing Brave Rewards and Ads. Currently, the protocol focuses on decentralizing and bringing transparency to the rewards calculation and to the ad attribution metrics for advertisers, which is non-trivial. The efforts to decentralize other components of the Brave Rewards and Ads ecosystem are out of scope of this RFC&C, although they can be considered by the teams when submitting their RFC proposals.
+
+- **What the dimension of the ad vectors (catalog size) are and also an upper bound on how big each entries of the vectors are (how many times can a user interact with a single ad per epoch)?**
+
+For the purpose of testing and estimates, we can assume that each catalog has up to 128 ads per campaign (feel free to estimate for 256 ad, although we're not expecting this amount of ads per catalog in the medium term). As for the upper bound of interactions per ad per user, we can do a back of the envelop calculation: each user can interact with up to 10 ads/day. The max time per ad catalog epoch is one month. If we consider that a user has interacted with the same ad every day, as many times as possible, we get an upper limit of 310 (10 * 31).
 
 ### RFC&C Practicalities
 
