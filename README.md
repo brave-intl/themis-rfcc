@@ -1,5 +1,15 @@
 # THEMIS RFC&C
 
+**UPDATE**: The RFC&C event came to an end! A warm thank you to all the teams who
+participated, Ava Labs, Aztec, IMDEA Software Institute, NEAR protocol,
+O(1)Labs, Parity and Polkadot, SKALE network, Solana, Stake Technologies,
+StarkWare, and ZeroPool, and every other participant that help make the event a
+great success.
+
+Final submissions in [./submissions](./submissions)
+
+---
+
 The Request For Comments and Code (RFC&C) community event is a 2 month event
 where the Brave Research team, companies and projects in the cryptography space,
 and researchers will come together to engage in technical discussions and
