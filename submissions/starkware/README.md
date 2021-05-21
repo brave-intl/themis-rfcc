@@ -1,6 +1,6 @@
 ## Starkware submission
 
-** Note: StarkWare did not submit a formal proposal, and the information provided here is the output of back-of-envelope calculations and discussions between the teams.**
+### Note: StarkWare did not submit a formal proposal, and the information provided here is the output of back-of-envelope calculations and discussions between the teams.
 
 
 In this document we present our understanding of the best solution that could run using STARKs. These notes are the output of conversations with some of the StarkWare team. We begin by giving an overview of the solution proposed, some estimates, and open questions that should be resolved. 
@@ -8,20 +8,20 @@ STARK based solution
 
 The main idea is to replace the BBAs with proofs generated using cairo. The commitment of the state is encoded as a single merkle tree root. Each of the leaves of this tree encodes the number of interactions each ad had, i.e. the interaction vector is represented by the leaves of the tree (there would be some randomisation added here to avoid brute forcing the state of a given merkle tree root). This root is initialised at zero, and signed by Brave. When a user interacts with an ad, it updates the leaf of the merkle tree corresponding to the ad viewed. Next, it sends the event viewed to Brave, adi, with a proof of the following statement: 
 
-{(T): Signature.Verify(T) = true  Tree.Update(T, adi) = T'}
+`{(T): Signature.Verify(T) = true  Tree.Update(T, adi) = T'}`
 
 
 where T,T', are the old and new merkle tree roots respectively. Note that if the old root is valid, there should exist a valid signature for it. In the proof, the value of the hold commitment (and its corresponding signature) is hidden. Function Signature.Verify()simply verifies if there exists a valid signature for the given input. Function Tree.Update(, ) computes the update of the tree whose root is given as input, with the event (also given as input). 
 After the proof validates, Brave would sign the updated merkle root, T', and return it to the user. Using the above scheme would result in important improvements at the time of batching proofs. 
 
-Estimates of this proof: 
+**Estimates of this proof:**
 - 2-10 seconds on a smartphone
 - 40KB
 - 120K updates could be batched in a single STARK proof
 - The batch proof would take a few minutes in an amazon machine
 - Estimate of gas cost per transaction is 50gas/update
 
-Questions: 
+**Questions**: 
 - Are the estimates considering the proof that the signature (or each old commitment) is not double spent?
 
 Yes. Adding DS protection shouldn’t affect proving time significantly, but will necessitate Brave to maintain extra state.
@@ -38,21 +38,21 @@ Each user i picks a secret key si and submits H(si) to Brave, and Brave signs th
 
 Now, for each epoch j, each user i sends a message (mi,j, pi,j) where mi,j = H(si || j) and pi,j is the STARK proof of the statement 
 
-(*)   “I know si. sigi ,such that sigi  is the signature of H(si) with kpub and mi,j = H(si || j). “
+“I know signature `sigi` ,such that `sigi` is the signature of `H(si)` with `kpub` and `mi,j = H(si || j)`. “
 
 Brave will verify such statements and keep for each epoch j the set of verified mi,j. Notice this is a decent scheme because mi,j  doesn’t leak i, yet is deterministically computed from sigi and the epoch number j. Thus, one user may only submit one message mi,j per epoch.
 Batching user updates in lesser proofs
 The batching numbers look great - however, the problem comes when considering the complexity on the user side (communication and computationally speaking). 10 seconds and 40KB may be too much for a user to compute five times per hour. To this end, one option is to have users batch several updates in a single proof. In this section we draft our understanding of such a solution.
 
-When users interact with an ad, adi, instead of submitting a proof, they simply submit a commitment to the event together with the event itself. Particularly, they send the following tuple, [adi, Comm(adi)]. We assume that users report honestly, and therefore we don't need this value to be signed. You want these signed, or else, Brave should maintain some data structure with this data. But simpler to simply sign, as you intended in the previous section. 
+When users interact with an ad, adi, instead of submitting a proof, they simply submit a commitment to the event together with the event itself. Particularly, they send the following tuple, `[adi, Comm(adi)]`. We assume that users report honestly, and therefore we don't need this value to be signed. You want these signed, or else, Brave should maintain some data structure with this data. But simpler to simply sign, as you intended in the previous section. 
 
 Now, the proof will come once per day, where the user will update it's current merkle root with several ad events, S=[adi]iV, where Vcontains the indices of all ads viewed during the day. Then, the statement being proved is the following:
 
-{(T): Signature.Verify(T) = true  Tree.SeveralUpdate(T, S) = T'  eS,  Comm(e)}
+`{(T): Signature.Verify(T) = true  Tree.SeveralUpdate(T, S) = T'  eS,  Comm(e)}`
 
 where Tree.SeveralUpdate(,) is simply an update of a merkle root corresponding to a set of events. The last check ensures that for every event in S there exists a commitment which has not been double spent. 
 
-Questions:
+**Further Questions**:
 - Does this proof grow linearly with respect to the number of events contained in S?
 
 No, it grows logarithmically in |S|
@@ -67,8 +67,6 @@ See answer to previous question (I don’t understand how this question differs 
 - How does the proof that a commitment is not double spent affect the running times?
 
 Negligibly, the prover has to prove 4 invocations of a crypto primitive (which is a negligible amount of computation)
-
-Q&As
 
 - Re: batching of the proofs - is it correct to say that it should take about 2-10s to generate a prove of 10 updates on the client side? And a size of <60KB per proof? In production, this proof would be generated by the user daily.
 
